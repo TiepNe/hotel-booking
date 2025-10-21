@@ -105,7 +105,7 @@ const Navbar = () => {
           <UserButton>
             <UserButton.MenuItems>
               <UserButton.Action
-                label="Đơn đặt phòng của tôi"
+                label="Đặt phòng của tôi"
                 labelIcon={<BookIcon />}
                 onClick={() => navigate("/my-bookings")}
               />
@@ -128,7 +128,7 @@ const Navbar = () => {
       <div className="flex items-center gap-3 md:hidden">
         {user && (<UserButton>
             <UserButton.MenuItems>
-              <UserButton.Action label="Đơn đặt phòng của tôi" labelIcon={<BookIcon/
+              <UserButton.Action label="Đặt phòng của tôi" labelIcon={<BookIcon/
               >} onClick={() => navigate("/my-bookings")}/>
             </UserButton.MenuItems>
           </UserButton>

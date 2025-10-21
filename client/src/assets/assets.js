@@ -140,42 +140,42 @@ export const testimonials = [
 
 // Facility Icon
 export const facilityIcons = {
-  "Free WiFi": assets.freeWifiIcon,
-  "Free Breakfast": assets.freeBreakfastIcon,
-  "Room Service": assets.roomServiceIcon,
-  "Mountain View": assets.mountainIcon,
-  "Pool Access": assets.poolIcon,
+  "Wifi Miễn Phí": assets.freeWifiIcon,
+  "Bữa Sáng Miễn Phí": assets.freeBreakfastIcon,
+  "Dịch Vụ Phòng": assets.roomServiceIcon,
+  "Hướng Núi": assets.mountainIcon,
+  "Hồ Bơi": assets.poolIcon,
 };
 
 // For Room Details Page
 export const roomCommonData = [
   {
     icon: assets.homeIcon,
-    title: "Clean & Safe Stay",
-    description: "A well-maintained and hygienic space just for you.",
+    title: "Không Gian Sạch Sẽ & An Toàn",
+    description: "Được vệ sinh kỹ lưỡng và chăm chút từng chi tiết, mang đến sự an tâm tuyệt đối.",
   },
   {
     icon: assets.badgeIcon,
-    title: "Enhanced Cleaning",
-    description: "This host follows Staybnb's strict cleaning standards.",
+    title: "Tiêu Chuẩn Vệ Sinh Cao Cấp",
+    description: "Tuân thủ quy trình làm sạch nghiêm ngặt theo tiêu chuẩn Staybnb.",
   },
   {
     icon: assets.locationFilledIcon,
-    title: "Excellent Location",
-    description: "90% of guests rated the location 5 stars.",
+    title: "Vị Trí Tuyệt Vời",
+    description: "90% khách hàng đánh giá 5 sao cho vị trí của chỗ nghỉ.",
   },
   {
     icon: assets.heartIcon,
-    title: "Smooth Check-In",
-    description: "100% of guests gave check-in a 5-star rating.",
+    title: "Nhận Phòng Dễ Dàng",
+    description: "100% khách hàng hài lòng và đánh giá 5 sao cho trải nghiệm nhận phòng.",
   },
 ];
 
 // User Dummy Data
 export const userDummyData = {
   _id: "user_2unqyL4diJFP1E3pIBnasc7w8hP",
-  username: "Great Stack",
-  email: "user.greatstack@gmail.com",
+  username: "Tiệp",
+  email: "user.tiepdinhnguyen@gmail.com",
   image:
     "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ2N2c5YVpSSEFVYVUxbmVYZ2JkSVVuWnFzWSJ9",
   role: "hotelOwner",
@@ -188,11 +188,11 @@ export const userDummyData = {
 // Hotel Dummy Data
 export const hotelDummyData = {
   _id: "67f76393197ac559e4089b72",
-  name: "Khách Sạn Hòa Bình",
-  address: "Số 45, Đường Lý Thường Kiệt, Quận Hoàn Kiếm",
+  name: "Khách Sạn Sao Việt",
+  address: "Số 333, Đường Phạm Hồng Thái, Phường Thành Vinh",
   contact: "+84901234567",
   owner: userDummyData,
-  city: "Hà Nội, Việt Nam",
+  city: "Nghệ An, Việt Nam",
   createdAt: "2025-04-10T06:22:11.663Z",
   updatedAt: "2025-04-10T06:22:11.663Z",
   __v: 0,
@@ -203,9 +203,9 @@ export const roomsDummyData = [
   {
     _id: "67f7647c197ac559e4089b96",
     hotel: hotelDummyData,
-    roomType: "Phòng giường đôi",
+    roomType: "Phòng Giường Đôi",
     pricePerNight: 399,
-    amenities: ["Dịch vụ phòng", "Hướng núi", "Hồ bơi"],
+    amenities: ["Dịch Vụ Phòng", "Hướng Núi", "Hồ Bơi"],
     images: [roomImg1, roomImg2, roomImg3, roomImg4],
     isAvailable: true,
     createdAt: "2025-04-10T06:26:04.013Z",
@@ -215,9 +215,9 @@ export const roomsDummyData = [
   {
     _id: "67f76452197ac559e4089b8e",
     hotel: hotelDummyData,
-    roomType: "Phòng giường đôi",
+    roomType: "Phòng Giường Đôi",
     pricePerNight: 299,
-    amenities: ["Dịch vụ phòng", "Hướng núi", "Hồ bơi"],
+    amenities: ["Dịch Vụ Phòng", "Hướng Núi", "Hồ Bơi"],
     images: [roomImg2, roomImg3, roomImg4, roomImg1],
     isAvailable: true,
     createdAt: "2025-04-10T06:25:22.593Z",
@@ -227,9 +227,9 @@ export const roomsDummyData = [
   {
     _id: "67f76406197ac559e4089b82",
     hotel: hotelDummyData,
-    roomType: "Phòng giường đôi",
+    roomType: "Phòng Giường Đôi",
     pricePerNight: 249,
-    amenities: ["WiFi miễn phí", "Bữa sáng miễn phí", "Dịch vụ phòng"],
+    amenities: ["Wifi Miễn Phí", "Bữa Sáng Miễn Phí", "Dịch Vụ Phòng"],
     images: [roomImg3, roomImg4, roomImg1, roomImg2],
     isAvailable: true,
     createdAt: "2025-04-10T06:24:06.285Z",
@@ -239,9 +239,9 @@ export const roomsDummyData = [
   {
     _id: "67f763d8197ac559e4089b7a",
     hotel: hotelDummyData,
-    roomType: "Phòng giường đơn",
+    roomType: "Phòng Giường Đơn",
     pricePerNight: 199,
-    amenities: ["WiFi miễn phí", "Dịch vụ phòng", "Hồ bơi"],
+    amenities: ["Wifi Miễn Phí", "Dịch Vụ Phòng", "Hồ Bơi"],
     images: [roomImg4, roomImg1, roomImg2, roomImg3],
     isAvailable: true,
     createdAt: "2025-04-10T06:23:20.252Z",
