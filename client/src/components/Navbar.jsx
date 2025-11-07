@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { assets } from "../assets/assets";
-import { useClerk, useUser, UserButton } from "@clerk/clerk-react";
+import { useClerk, UserButton } from "@clerk/clerk-react";
+import { useAppContext } from "../context/AppContext";
 
 const BookIcon = ()=>(
   <svg className="w-4 h-4 text-gray-700" aria-hidden="true" xmlns="http://www.w3.
@@ -25,9 +26,9 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const {openSignIn} = useClerk()
-  const {user} = useUser()
-  const navigate = useNavigate()
-  const location = useLocation
+  const location = useLocation()
+
+  const {user, navigate, isOwner, setShowHotelReg} = useAppContext()
 
   useEffect(() => {
 
@@ -63,7 +64,7 @@ const Navbar = () => {
         />
       </Link>
 
-      {/* Desktop Nav */}
+      {/* Menu Điều Hướng */}
       <div className="hidden md:flex items-center gap-4 lg:gap-8">
         {navLinks.map((link, i) => (
           <a
@@ -81,18 +82,18 @@ const Navbar = () => {
             />
           </a>
         ))}
-        <button
+        { user && (
+          <button
           className={`border px-4 py-1 text-sm font-light 
-          rounded-full cursor-pointer ${
-            isScrolled ? "text-black" : "text-white"
-          } transition-all`}
-          onClick={() => navigate("/owner")}
-        >
-          Quản lý đặt phòng
-        </button>
+          rounded-full cursor-pointer ${isScrolled ? "text-black" : 
+          "text-white"} transition-all`} onClick={() => isOwner ? navigate("/owner") : setShowHotelReg(true)}>
+          {isOwner ? 'Quản lý đặt phòng' : 'Đăng Khách Sạn Của Bạn'}
+          </button>
+          )
+        }
       </div>
 
-      {/* Desktop Right */}
+      {/* Bên Phải */}
       <div className="hidden md:flex items-center gap-4">
         <img
           src={assets.searchIcon}
@@ -123,7 +124,7 @@ const Navbar = () => {
         )}
       </div>
 
-      {/* Mobile Menu Button */}
+      {/* Mở Menu Di Động */}
 
       <div className="flex items-center gap-3 md:hidden">
         {user && (<UserButton>
@@ -137,7 +138,7 @@ const Navbar = () => {
         menuIcon} alt="" className={`${isScrolled && "invert"} h-4`}/>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Menu Trên Đt */}
       <div
         className={`fixed top-0 left-0 w-full h-screen bg-white text-base flex flex-col md:hidden items-center justify-center gap-6 font-medium text-gray-800 transition-all duration-500 ${
           isMenuOpen ? "translate-x-0" : "-translate-x-full"
@@ -164,10 +165,9 @@ const Navbar = () => {
         {user && (
           <button
             className="border px-4 py-1 text-sm font-light 
-        rounded-full cursor-pointer transition-all"
-            onClick={() => navigate("/owner")}
-          >
-            Quản Trị
+            rounded-full cursor-pointer transition-all" onClick={() => 
+            isOwner ? navigate("/owner") : setShowHotelReg(true)}>
+                {isOwner ? 'Quản lý đặt phòng' : 'Đăng Khách Sạn Của Bạn'}
           </button>
         )}
 

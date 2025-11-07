@@ -12,7 +12,7 @@ dist
 dist-ssr
 *.local
 
-# Editor directories and files
+# Thư mục và file của trình soạn thảo/IDE
 .vscode/*
 !.vscode/extensions.json
 .idea

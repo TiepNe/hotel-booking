@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import Title from '../../components/Title'
 import { assets } from '../../assets/assets'
+import { useAppContext } from '../../context/AppContext'
+import toast from 'react-hot-toast'
 
 const AddRoom = () => {
+
+    const {axios, getToken} = useAppContext()
 
     const [images, setImages] = useState({
         1: null,
@@ -22,13 +26,64 @@ const AddRoom = () => {
         }
     })
 
+    const [loading, setLoading] = useState(false)
+
+    const onSubmitHandler = async (e)=>{
+        e.preventDefault()
+        // Kiểm Tra Điền Đủ Chưa
+        if(!inputs.roomType || !inputs.pricePerNight || !inputs.amenities || 
+          !Object.values(images).some(image => image)){
+              toast.error("Please fill in all the details")
+              return;
+          }
+          setLoading(true);
+          try {
+            const formData = new FormData()
+            formData.append('roomType', inputs.roomType)
+            formData.append('pricePerNight', inputs.pricePerNight)
+            // // Chuyển danh sách tiện nghi thành mảng và chỉ giữ lại các tiện nghi được bật
+            const amenities = Object.keys(inputs.amenities).filter(key => inputs.amenities[key])
+            formData.append('amenities', JSON.stringify(amenities))
+
+            // // Thêm hình ảnh vào FormData
+            Object.keys(images).forEach((key)=>{
+                images[key] && formData.append('images', images[key])
+            })
+
+            const { data } = await axios.post('/api/rooms/', formData, {headers: 
+            {Authorization: `Bearer ${await getToken()}`}})
+
+            if (data.success){
+              toast.success(data.message)
+              setInputs({
+                  roomType:'',
+                  pricePerNight: 0,
+                  amenities: {
+                    'Wifi Miễn Phí': false,
+                    'Bữa Sáng Miễn Phí': false,
+                    'Dịch Vụ Phòng': false,
+                    'Hướng Núi': false,
+                    'Hồ Bơi': false
+                  }
+              })
+              setImages({1: null, 2: null, 3: null, 4: null})
+            }else{
+                toast.error(data.message)
+            }
+          } catch (error) {
+                toast.error(error.message)
+          }finally{
+              setLoading(false);
+          }
+    }
+
 
   return (
-    <form>
+    <form onSubmit={onSubmitHandler}>
       <Title align='left' font='outfit' title='Thêm Phòng' subTitle='Vui lòng điền đầy đủ 
       và chính xác thông tin về phòng, giá và tiện nghi để mang lại trải nghiệm đặt phòng 
       tốt nhất cho khách hàng.'/>
-      {/* --- Upload Area For Image --- */}
+      {/* --- Khu vực tải lên hình ảnh --- */}
       <p className='text-gray-800 mt-10'>Hình Ảnh</p>
       <div className='grid grid-cols-2 sm:flex gap-4 my-2 flex-wrap'>
         {Object.keys(images).map((key)=>(
@@ -49,10 +104,10 @@ const AddRoom = () => {
             className='border opacity-70 border-gray-300 mt-1 rounded p-2 
             w-full'>
               <option value="">Chọn Loại Phòng</option>
-              <option value="Single Bed">Phòng Đơn</option>
-              <option value="Double Bed">Phòng Đôi</option>
-              <option value="Luxury Room">Phòng Cao Cấp</option>
-              <option value="Family Suite">Phòng Gia Đình</option>
+              <option value="Phòng Đơn">Phòng Đơn</option>
+              <option value="Phòng Đôi">Phòng Đôi</option>
+              <option value="Phòng Cao Cấp">Phòng Cao Cấp</option>
+              <option value="Phòng Gia Đình">Phòng Gia Đình</option>
             </select>
         </div>
         <div>
@@ -77,8 +132,8 @@ const AddRoom = () => {
               ))}
           </div>
           <button className='bg-primary text-white px-8 py-2 rounded mt-8 
-          cursor-pointer'>
-              Thêm Phòng
+          cursor-pointer' disabled={loading}>
+             {loading ? 'Đang Thêm...' : 'Thêm Phòng'}
           </button>
     </form>
   )
