@@ -10,5 +10,12 @@ export default defineConfig({
   ],
   css: {
     transformer: 'postcss',
+    postcss: {}
   },
+  optimizeDeps: {
+    exclude: ['lightningcss'] 
+  },
+  build: {
+    cssMinify: false
+  }
 })
