@@ -9,16 +9,16 @@ import hotelRouter from "./routes/hotelRoutes.js";
 import connectCloudinary from "./configs/cloudinary.js";
 import roomRouter from "./routes/roomRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
+import { stripeWebhooks } from "./controllers/stripeController.js";
 
 connectDB()
 connectCloudinary();
 
 const app = express()
-app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true
-})); // Enable Cross-Origin Resource Sharing (CORS)
+app.use(cors()) // Enable Cross-Origin Resource Sharing (CORS)
 
+// API để lắng nghe Webhooks từ Stripe
+app.post('/api/stripe', express.raw({type: "application/json" }), stripeWebhooks);
 
 // Middleware
 app.use(express.json())

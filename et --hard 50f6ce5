@@ -1,0 +1,9 @@
+[33m50f6ce5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Fix: disable lightningcss for cross-platform build
+[33m05ae51e[m 80%
+[33m43c09c4[m Reinstall dependencies and fix build
+[33m0d0892a[m Fix .gitignore to ignore node_modules and .env
+[33m43a6dc2[m Add .env to .gitignore
+[33m28d55df[m[33m ([m[1;32mclean-main[m[33m)[m done1
+[33m63cc3fd[m nua do an
+[33m5bde0cc[m update
+[33mb6e190b[m Initial commit

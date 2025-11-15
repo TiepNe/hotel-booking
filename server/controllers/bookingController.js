@@ -2,6 +2,7 @@ import transporter from "../configs/nodemailer.js";
 import Booking from "../models/Booking.js";
 import Hotel from "../models/Hotel.js";
 import Room from "../models/Room.js";
+import stripe from "stripe";
 
 //Hàm kiểm tra phòng có sẵn hay không
 const checkAvailability = async ({ checkInDate, checkOutDate, room }) => {
@@ -23,11 +24,8 @@ const checkAvailability = async ({ checkInDate, checkOutDate, room }) => {
 export const checkAvailabilityAPI = async (req, res) => {
   try {
     const { room, checkInDate, checkOutDate } = req.body;
-    const isAvailable = await checkAvailability({
-      checkInDate,
-      checkOutDate,
-      room,
-    });
+    const isAvailable = await checkAvailability({ checkInDate, checkOutDate,
+    room });
     res.json({ success: true, isAvailable });
   } catch (error) {
     res.json({ success: false, message: error.message });
@@ -73,7 +71,7 @@ export const createBooking = async (req, res) => {
       totalPrice,
     });
 
-    const mailOptions = {
+    const mailOptions = {   
         from: process.env.SENDER_EMAIL,
         to: req.user.email,
         subject: 'Chi Tiết Đặt Phòng Khách Sạn',
@@ -98,7 +96,8 @@ export const createBooking = async (req, res) => {
     
     await transporter.sendMail(mailOptions)
 
-    res.json({ success: true, message: "Đặt phòng thành công" });
+    res.json({ success: true, message: "Đặt phòng thành công" })
+
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "Đặt phòng thất bại, vui lòng thử lại" });
@@ -110,9 +109,7 @@ export const createBooking = async (req, res) => {
 export const getUserBookings = async (req, res) => {
   try {
     const user = req.user._id;
-    const bookings = await Booking.find({ user })
-      .populate("room hotel")
-      .sort({ createAt: -1 });
+    const bookings = await Booking.find({ user }).populate("room hotel").sort({ createAt: -1 });
     res.json({ success: true, bookings });
   } catch (error) {
     res.json({ success: false, message: "Không thể tải danh sách đặt phòng" });
@@ -139,3 +136,45 @@ export const getHotelBookings = async (req, res) => {
         res.json({success: false, message: "Không thể tải danh sách đặt phòng"})
   }
 };
+
+export const stripePayment = async (req, res)=>{
+    try {
+        const { bookingId } = req.body;
+
+        const booking = await Booking.findById(bookingId);
+        const roomData = await Room.findById(booking.room).populate('hotel');
+
+        const totalPrice = booking.totalPrice;
+
+        const { origin } = req.headers;
+
+        const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
+
+        const line_items = [
+            {
+                price_data:{
+                  currency: "usd",
+                  product_data:{
+                      name: roomData.hotel.name,                      
+                  },
+                  unit_amount: totalPrice * 100
+                },
+                quantity: 1,
+            }
+        ]
+        //Khởi tạo Session thanh toán
+        const session = await stripeInstance.checkout.sessions.create({
+            line_items,
+            mode: "payment",
+            success_url: `${origin}/loader/my-bookings`,
+            cancel_url: `${origin}/my-bookings`,
+            metadata:{
+                bookingId,
+            }
+        })
+        res.json({success: true, url: session.url})
+
+    } catch (error) {
+        res.json({success: false, message: "Thanh Toán Thất Bại"})
+    }
+}

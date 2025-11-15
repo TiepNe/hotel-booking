@@ -5,7 +5,7 @@ const bookingSchema = new mongoose.Schema({
     room: {type: String, ref: "Room", required: true},
     hotel: {type: String, ref: "Hotel", required: true},
     checkInDate: {type: Date, required: true},
-    checkOutDate: {type: String, required: true},
+    checkOutDate: {type: Date, required: true},
     totalPrice: {type: Number, required: true},
     guests: {type: Number, required: true},
     status: {
